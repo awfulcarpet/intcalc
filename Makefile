@@ -8,6 +8,7 @@ NAME = intcalc
 OUTDIR = .build
 OBJ = \
       $(OUTDIR)/main.o \
+      $(OUTDIR)/inputbox.o \
 
 all: $(NAME)
 
