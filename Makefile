@@ -10,6 +10,7 @@ OBJ = \
       $(OUTDIR)/main.o \
       $(OUTDIR)/inputbox.o \
       $(OUTDIR)/equation.o \
+      $(OUTDIR)/graph.o \
 
 all: $(NAME)
 
