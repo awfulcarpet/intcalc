@@ -28,12 +28,6 @@ main(void)
 			free_terms(head);
 			head = parse_equation(equation_box.text);
 
-
-			while (head != NULL) {
-				printf("%f %f\n", head->c, head->power);
-				head = head->next;
-			}
-
 			draw_inputbox(&equation_box);
 		EndDrawing();
 	}

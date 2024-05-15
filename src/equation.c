@@ -103,10 +103,11 @@ free_terms(struct term *head)
 	if (head == NULL)
 		return;
 
-	struct term *next = head->next;
+	struct term *next = NULL;
 	do {
+		if (head->next != NULL)
+			next = head->next;
 		free(head);
 		head = next;
-		next = head->next;
-	} while ((next != NULL));
+	} while (head != NULL);
 }
