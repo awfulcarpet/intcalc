@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <ctype.h>
 #include "equation.h"
 
 struct term *
@@ -21,6 +22,41 @@ push_term(struct term *head, float c, float power)
 	return head;
 }
 
+int
+parse_term(char *term, float *c, float *power) {
+	char *start = term;
+	while (*term != '\0' && *term != 'x') term++;
+
+	char *buf[255] = {0};
+	strncpy(buf, start, term - start);
+	*c = atoi(buf);
+	if (*c == 0 && term - start == 0) {
+		*c = 1;
+	}
+
+	if (*c == 0 && buf[0] != '0' && start[0] != 'x' && term-start != 0) {
+		return -1;
+	}
+
+	if (*term != 'x') {
+		return 0;
+	}
+
+	term++;
+	start = term;
+
+	while (*term++ != '\0');
+
+	memset(buf, 0, 255);
+	strncpy(buf, start, term - start);
+	*power = atoi(buf);
+	if (*power == 0 && term-start != 0) {
+		*power = 1;
+	}
+
+	return 0;
+}
+
 struct term *
 parse_equation(char *equation)
 {
@@ -32,32 +68,34 @@ parse_equation(char *equation)
 		return NULL;
 	}
 
+	char buf[255] = {0};
+	float c = 1;
+	float power = 0;
+
+	int x = start;
 	while (1) {
+		// TODO: handle whitespace
 		if (equation[end] == '+' || equation[end] == '\0') {
-			float c = 1;
-			float power = 0;
-
-			int x = start;
-			char buf[6] = {0};
-			while (equation[x++] != 'x' && x <= end);
-
-			strncpy(buf, equation + start, x-1);
-			c = atoi(buf);
-			if (c == 0 && buf[0] != '0') {
+			strncpy(buf, equation, end);
+			if (parse_term(buf, &c, &power)) {
+				free_terms(terms);
 				return NULL;
 			}
 
-			terms = push_term(terms, atoi(buf), 3);
+			terms = push_term(terms, c, power);
+
 
 			if (equation[end] == '\0')
 				break;
 
-			start = end + 1;
+			memset(buf, 0, 255);
+			equation = equation + end + 1;
 		}
 		end++;
 	}
 	return terms;
 }
+
 
 void
 free_terms(struct term *head)

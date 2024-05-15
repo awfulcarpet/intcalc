@@ -14,7 +14,7 @@ main(void)
 
 	struct TextInput equation_box = {
 		(Rectangle){0, 0, 300, 50},
-		{0, 0, 0},
+		{0},
 		false
 	};
 	
