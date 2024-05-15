@@ -9,6 +9,7 @@ OUTDIR = .build
 OBJ = \
       $(OUTDIR)/main.o \
       $(OUTDIR)/inputbox.o \
+      $(OUTDIR)/equation.o \
 
 all: $(NAME)
 
