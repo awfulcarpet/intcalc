@@ -29,10 +29,9 @@ main(void)
 			400,
 		},
 		10,
-		-10,
+		0,
 		10,
 		-10,
-		1
 	};
 	
 	struct term *head = NULL;
@@ -51,6 +50,5 @@ main(void)
 	}
 
 	CloseWindow();
-	print_terms(head);
 	return 0;
 }

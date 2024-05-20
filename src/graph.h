@@ -4,5 +4,4 @@ struct graph {
 	float min_x;
 	float max_y;
 	float min_y;
-	float step;
 };
