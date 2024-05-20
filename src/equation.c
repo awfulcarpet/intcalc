@@ -16,8 +16,11 @@ push_term(struct term *head, float c, float power)
 		return head;
 	}
 
-	while (head->next != NULL);
-	head->next = new_term;
+	struct term *cur = head;
+	while (cur->next != NULL) {
+		cur = cur->next;
+	}
+	cur->next = new_term;
 
 	return head;
 }
@@ -96,6 +99,14 @@ parse_equation(char *equation)
 	return terms;
 }
 
+void
+print_terms(struct term *head)
+{
+	while (head != NULL) {
+		printf("%f\n", head->c);
+		head = head->next;
+	}
+}
 
 void
 free_terms(struct term *head)
@@ -103,11 +114,11 @@ free_terms(struct term *head)
 	if (head == NULL)
 		return;
 
+	struct term *cur = head;
 	struct term *next = NULL;
 	do {
-		if (head->next != NULL)
-			next = head->next;
-		free(head);
-		head = next;
-	} while (head != NULL);
+		next = cur->next;
+		free(cur);
+		cur = next;
+	} while (cur != NULL);
 }

@@ -14,3 +14,5 @@ struct term * parse_equation(char *equation);
 
 // frees queue of terms
 void free_terms(struct term *head);
+
+void print_terms(struct term *head);
