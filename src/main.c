@@ -51,5 +51,6 @@ main(void)
 	}
 
 	CloseWindow();
+	print_terms(head);
 	return 0;
 }

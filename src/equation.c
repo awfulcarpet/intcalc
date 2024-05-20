@@ -78,7 +78,7 @@ parse_equation(char *equation)
 	int x = start;
 	while (1) {
 		// TODO: handle whitespace
-		if (equation[end] == '+' || equation[end] == '\0') {
+		if (equation[end] == '+' || equation[end+1] == '\0') {
 			strncpy(buf, equation, end);
 			if (parse_term(buf, &c, &power)) {
 				free_terms(terms);
@@ -93,6 +93,7 @@ parse_equation(char *equation)
 
 			memset(buf, 0, 255);
 			equation = equation + end + 1;
+			end = 0;
 		}
 		end++;
 	}
@@ -103,7 +104,7 @@ void
 print_terms(struct term *head)
 {
 	while (head != NULL) {
-		printf("%f\n", head->c);
+		printf("%fx^%f\n", head->c, head->power);
 		head = head->next;
 	}
 }
