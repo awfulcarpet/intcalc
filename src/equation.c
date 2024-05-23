@@ -100,6 +100,16 @@ parse_equation(char *equation)
 	return terms;
 }
 
+float
+get_value(struct term *equation, float x) {
+	float y = 0.0;
+	while (equation != NULL) {
+		y += equation->c * powf(x, equation->power);
+		equation = equation->next;
+	}
+	return y;
+}
+
 void
 print_terms(struct term *head)
 {

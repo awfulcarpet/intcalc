@@ -1,5 +1,21 @@
 #include <raylib.h>
+#include <math.h>
 #include "graph.h"
+#include "equation.h"
+
+
+void
+draw_curve(struct graph *graph, struct term *equation)
+{
+	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
+	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
+
+	float y = get_value(equation, 1);
+	printf("%f\n", y);
+	for (float i = graph->min_x; i < graph->max_x; i += graph->step) {
+		float y = get_value(equation, i);
+	}
+}
 
 void
 draw_graph_lines(struct graph *graph)
@@ -21,7 +37,7 @@ draw_graph_lines(struct graph *graph)
 		}
 	}
 
-	int stepsize_y = graph->pos.width / (graph->max_y - graph->min_y);
+	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 	for (int i = 0; i < graph->max_y - graph->min_y; i++) {
 		Vector2 start = {
 			graph->pos.x,

@@ -29,9 +29,10 @@ main(void)
 			400,
 		},
 		10,
-		0,
+		-10,
 		10,
 		-10,
+		0.001
 	};
 	
 	struct term *head = NULL;
@@ -46,6 +47,7 @@ main(void)
 
 			draw_inputbox(&equation_box);
 			draw_graph_lines(&graph);
+			draw_curve(&graph, head);
 		EndDrawing();
 	}
 
