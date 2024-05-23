@@ -4,7 +4,6 @@
 #include "graph.h"
 #include "equation.h"
 
-
 void
 draw_curve(struct graph *graph, struct term *equation)
 {
@@ -20,6 +19,52 @@ draw_curve(struct graph *graph, struct term *equation)
 				graph->pos.y + graph->pos.height/2.0 + y * stepsize_y,
 				BLUE);
 	}
+}
+
+float
+draw_and_calc_integral(struct graph *graph, struct term *equation, struct riemann *sum)
+{
+	if (equation == NULL) {
+		return 0;
+	}
+	sum->sum = 0;
+	// right riemann sum
+	float width = (sum->b - sum->a) / sum->n;
+
+	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
+	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
+	int x_axis_y = graph->pos.y + stepsize_y * (graph->max_y - graph->min_y) / 2;
+	int y_axis_x = graph->pos.x + stepsize_x * (graph->max_x - graph->min_x) / 2;
+	int max_pixel_width = (sum->b - sum->a) * stepsize_x;
+
+	struct Color color = {
+		255,
+		0,
+		0,
+		1	
+	};
+
+	for (int i = 1; i <= sum->n; i++) {
+		float y = get_value(equation, sum->a + width * i);
+		sum->sum += y * width; 
+		struct Color tint = {
+			200,
+			0,
+			0,
+			0.3 * 255
+		};
+
+		struct Rectangle rect = {
+			y_axis_x + (sum->a + width * (i-1)) * stepsize_x,
+			x_axis_y + -y * stepsize_y,
+			width * stepsize_x,
+			y * stepsize_y,
+		};
+
+		DrawRectangleRec(rect, tint);
+	}
+
+	return sum->sum;
 }
 
 void

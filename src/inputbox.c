@@ -22,5 +22,6 @@ focus_unfocus_inputbox(struct TextInput *text_input)
 void
 draw_inputbox(struct TextInput *text_input)
 {
+	focus_unfocus_inputbox(text_input);
 	GuiTextBox(text_input->pos, text_input->text, MAX_INPUT_TEXT_LEN, text_input->editing);
 }
