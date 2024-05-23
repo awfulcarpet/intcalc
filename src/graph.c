@@ -10,9 +10,11 @@ draw_curve(struct graph *graph, struct term *equation)
 	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
 	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 
-	float y = get_value(equation, 1);
 	for (float i = graph->min_x; i < graph->max_x; i += graph->step) {
-		float y = get_value(equation, i);
+		float y = -get_value(equation, i); // pos is down on computer
+		DrawPixel(graph->pos.x + graph->pos.width/2 + i * stepsize_x,
+				graph->pos.y + graph->pos.height/2 + y * stepsize_y,
+				BLUE);
 	}
 }
 
