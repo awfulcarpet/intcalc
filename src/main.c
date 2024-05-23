@@ -28,10 +28,10 @@ main(void)
 			1000 - (equation_box.pos.x + equation_box.pos.width),
 			400,
 		},
-		10,
-		-10,
-		10,
-		-10,
+		3,
+		-3,
+		3,
+		-3,
 		0.001
 	};
 	

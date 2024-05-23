@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <stdlib.h>
 #include <math.h>
 #include "graph.h"
 #include "equation.h"
@@ -7,13 +8,16 @@
 void
 draw_curve(struct graph *graph, struct term *equation)
 {
+	if (equation == NULL) {
+		return;
+	}
 	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
 	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 
 	for (float i = graph->min_x; i < graph->max_x; i += graph->step) {
 		float y = -get_value(equation, i); // pos is down on computer
-		DrawPixel(graph->pos.x + graph->pos.width/2 + i * stepsize_x,
-				graph->pos.y + graph->pos.height/2 + y * stepsize_y,
+		DrawPixel(graph->pos.x + graph->pos.width/2.0 + i * stepsize_x,
+				graph->pos.y + graph->pos.height/2.0 + y * stepsize_y,
 				BLUE);
 	}
 }
@@ -22,7 +26,7 @@ void
 draw_graph_lines(struct graph *graph)
 {
 	DrawRectangleRec(graph->pos, WHITE);
-	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
+	float stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
 	for (int i = 0; i < graph->max_x - graph->min_x; i++) {
 		Vector2 start = {
 			graph->pos.x + i * stepsize_x,
@@ -38,7 +42,7 @@ draw_graph_lines(struct graph *graph)
 		}
 	}
 
-	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
+	float stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 	for (int i = 0; i < graph->max_y - graph->min_y; i++) {
 		Vector2 start = {
 			graph->pos.x,
