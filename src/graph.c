@@ -11,7 +11,6 @@ draw_curve(struct graph *graph, struct term *equation)
 	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 
 	float y = get_value(equation, 1);
-	printf("%f\n", y);
 	for (float i = graph->min_x; i < graph->max_x; i += graph->step) {
 		float y = get_value(equation, i);
 	}

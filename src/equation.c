@@ -78,7 +78,7 @@ parse_equation(char *equation)
 	int x = start;
 	while (1) {
 		// TODO: handle whitespace
-		if (equation[end] == '+' || equation[end+1] == '\0') {
+		if (equation[end] == '+' || equation[end] == '\0') {
 			strncpy(buf, equation, end);
 			if (parse_term(buf, &c, &power)) {
 				free_terms(terms);
