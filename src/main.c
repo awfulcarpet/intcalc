@@ -37,6 +37,12 @@ main(void)
 		{'1', '0', '0', '0', '0', 0},
 		false
 	};
+
+	struct TextInput area_box = {
+		(Rectangle){0, 200, 300, 50},
+		{'A', 'r', 'e', 'a', ':', ' ', 0},
+		false
+	};
 	
 	struct graph graph = {
 		(Rectangle){
@@ -70,11 +76,12 @@ main(void)
 			draw_inputbox(&a_box);
 			draw_inputbox(&b_box);
 			draw_inputbox(&n_box);
+			draw_inputbox(&area_box);
 
 			draw_graph_lines(&graph);
 			draw_curve(&graph, head);
 			draw_and_calc_integral(&graph, head, &sum);
-
+			sprintf(area_box.text, "Area: %.4f", sum.sum);
 
 		EndDrawing();
 	}
