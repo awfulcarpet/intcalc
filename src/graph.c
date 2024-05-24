@@ -10,11 +10,11 @@ draw_curve(struct graph *graph, struct term *equation)
 	if (equation == NULL) {
 		return;
 	}
-	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
-	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
+	double stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
+	double stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 
-	for (float i = graph->min_x; i < graph->max_x; i += graph->step) {
-		float y = -get_value(equation, i); // pos is down on computer
+	for (double i = graph->min_x; i < graph->max_x; i += graph->step) {
+		double y = -get_value(equation, i); // pos is down on computer
 		DrawPixel(graph->pos.x + graph->pos.width/2.0 + i * stepsize_x,
 				graph->pos.y + graph->pos.height/2.0 + y * stepsize_y,
 				BLUE);
@@ -29,13 +29,13 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 	}
 	sum->sum = 0;
 	// right riemann sum
-	float width = (sum->b - sum->a) / sum->n;
+	double width = (sum->b - sum->a) / sum->n;
 
-	int stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
-	int stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
-	int x_axis_y = graph->pos.y + stepsize_y * (graph->max_y - graph->min_y) / 2;
-	int y_axis_x = graph->pos.x + stepsize_x * (graph->max_x - graph->min_x) / 2;
-	int max_pixel_width = (sum->b - sum->a) * stepsize_x;
+	double stepsize_x = graph->pos.width / (graph->max_x - graph->min_x);
+	double stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
+	double x_axis_y = graph->pos.y + stepsize_y * (graph->max_y - graph->min_y) / 2;
+	double y_axis_x = graph->pos.x + stepsize_x * (graph->max_x - graph->min_x) / 2;
+	double max_pixel_width = (sum->b - sum->a) * stepsize_x;
 
 	struct Color color = {
 		255,
