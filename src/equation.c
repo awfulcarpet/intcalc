@@ -32,7 +32,7 @@ parse_term(char *term, float *c, float *power) {
 
 	char *buf[255] = {0};
 	strncpy(buf, start, term - start);
-	*c = atoi(buf);
+	*c = atof(buf);
 	if (*c == 0 && term - start == 0) {
 		*c = 1;
 	}
@@ -52,7 +52,7 @@ parse_term(char *term, float *c, float *power) {
 
 	memset(buf, 0, 255);
 	strncpy(buf, start, term - start);
-	*power = atoi(buf);
+	*power = atof(buf);
 	if (*power == 0 && term-start != 0) {
 		*power = 1;
 	}
