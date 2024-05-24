@@ -3,11 +3,11 @@
 
 struct graph {
 	Rectangle pos;
-	float max_x;
-	float min_x;
-	float max_y;
-	float min_y;
-	float step;
+	double max_x;
+	double min_x;
+	double max_y;
+	double min_y;
+	double step;
 };
 
 void draw_graph_lines(struct graph *graph);

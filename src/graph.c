@@ -68,6 +68,22 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 }
 
 void
+graph_zoom(struct graph *graph)
+{
+	float zoom_diff = -GetMouseWheelMove();
+	if (graph->max_x - zoom_diff <= graph->min_x + zoom_diff) {
+		return;
+	}
+	if (graph->max_x - zoom_diff <= graph->min_x + zoom_diff) {
+		return;
+	}
+	graph->max_x += -zoom_diff;
+	graph->max_y += -zoom_diff;
+	graph->min_x += zoom_diff;
+	graph->min_y += zoom_diff;
+}
+
+void
 draw_graph_lines(struct graph *graph)
 {
 	DrawRectangleRec(graph->pos, WHITE);

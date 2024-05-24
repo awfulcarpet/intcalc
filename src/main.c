@@ -64,6 +64,8 @@ main(void)
 			sum.b = atof(b_box.text);
 			sum.n = atof(n_box.text);
 
+			graph_zoom(&graph);
+
 			draw_inputbox(&equation_box);
 			draw_inputbox(&a_box);
 			draw_inputbox(&b_box);
@@ -72,6 +74,8 @@ main(void)
 			draw_graph_lines(&graph);
 			draw_curve(&graph, head);
 			draw_and_calc_integral(&graph, head, &sum);
+
+
 		EndDrawing();
 	}
 
