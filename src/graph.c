@@ -119,4 +119,17 @@ draw_graph_lines(struct graph *graph)
 			DrawLineEx(start, end, 3, BLACK);
 		}
 	}
+	for (int i = 0; i < graph->max_x - graph->min_x; i++) {
+		Vector2 start = {
+			graph->pos.x + i * stepsize_x,
+			graph->pos.y
+		};
+		Vector2 end = {
+				graph->pos.x + i * stepsize_x, 
+				graph->pos.y + graph->pos.height,
+		};
+		if (graph->min_x + i == 0) {
+			DrawLineEx(start, end, 3, BLACK);
+		}
+	}
 }
