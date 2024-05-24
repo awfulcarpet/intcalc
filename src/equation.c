@@ -33,28 +33,30 @@ parse_term(char *term, float *c, float *power) {
 	char *buf[255] = {0};
 	strncpy(buf, start, term - start);
 	*c = atof(buf);
-	if (*c == 0 && term - start == 0) {
+	if (*c == 0 && term - start == 0 && start[0] == 'x') {
 		*c = 1;
 	}
 
-	if (*c == 0 && buf[0] != '0' && start[0] != 'x' && term-start != 0) {
-		return -1;
+	if (*c == 0) {
+		return 1;
 	}
-
-	if (*term != 'x') {
+	if (*term == '\0') {
+		return 0;
+	}
+	term++;
+	start = term;
+	while (*term != '\0') term++;
+	if (start - term == 0) {
+		*power = 1;
 		return 0;
 	}
 
-	term++;
-	start = term;
-
-	while (*term++ != '\0');
 
 	memset(buf, 0, 255);
 	strncpy(buf, start, term - start);
 	*power = atof(buf);
-	if (*power == 0 && term-start != 0) {
-		*power = 1;
+	if (*power == 0 && start[0] != '0') {
+		return 1;
 	}
 
 	return 0;
@@ -81,19 +83,24 @@ parse_equation(char *equation)
 		if (equation[end] == '+' || equation[end] == '\0') {
 			strncpy(buf, equation, end);
 			if (parse_term(buf, &c, &power)) {
-				free_terms(terms);
-				return NULL;
+				/* free_terms(terms); */
+				/* return NULL; */
+				goto cleanup;
 			}
+			/* printf("%d %f %f\n\n", equation, c, power); */
 
 			terms = push_term(terms, c, power);
 
 
+cleanup:
 			if (equation[end] == '\0')
 				break;
 
 			memset(buf, 0, 255);
 			equation = equation + end + 1;
 			end = 0;
+			c = 0;
+			power = 0;
 		}
 		end++;
 	}

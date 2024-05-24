@@ -82,7 +82,6 @@ main(void)
 			draw_curve(&graph, head);
 			draw_and_calc_integral(&graph, head, &sum);
 			sprintf(area_box.text, "Area: %.4f", sum.sum);
-
 		EndDrawing();
 	}
 
