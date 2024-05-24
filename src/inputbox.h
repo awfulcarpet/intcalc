@@ -5,3 +5,4 @@ struct TextInput {
 	char text[MAX_INPUT_TEXT_LEN + 1];
 	bool editing;
 };
+void draw_inputbox(struct TextInput *text_input);

@@ -54,12 +54,18 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 			0.3 * 255
 		};
 
+
 		struct Rectangle rect = {
 			y_axis_x + (sum->a + width * (i-1)) * stepsize_x,
 			x_axis_y + -y * stepsize_y,
 			width * stepsize_x,
 			y * stepsize_y,
 		};
+
+		if (y * stepsize_y < 0) {
+			rect.y = x_axis_y;
+			rect.height = -(y * stepsize_y);
+		}
 
 		DrawRectangleRec(rect, tint);
 	}
