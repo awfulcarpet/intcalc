@@ -67,6 +67,8 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 			rect.height = -(y * stepsize_y);
 		}
 
+		if (rect.x < 300)
+			rect.x = 300;
 		DrawRectangleRec(rect, tint);
 	}
 

@@ -43,7 +43,7 @@ main(void)
 		{'A', 'r', 'e', 'a', ':', ' ', 0},
 		false
 	};
-	
+
 	struct graph graph = {
 		(Rectangle){
 			equation_box.pos.x + equation_box.pos.width,
@@ -57,7 +57,7 @@ main(void)
 		-3,
 		0.001
 	};
-	
+
 	struct term *head = NULL;
 	struct riemann sum = {0};
 
@@ -72,15 +72,16 @@ main(void)
 
 			graph_zoom(&graph);
 
+
+			draw_graph_lines(&graph);
+			draw_curve(&graph, head);
+			draw_and_calc_integral(&graph, head, &sum);
+
 			draw_inputbox(&equation_box);
 			draw_inputbox(&a_box);
 			draw_inputbox(&b_box);
 			draw_inputbox(&n_box);
 			draw_inputbox(&area_box);
-
-			draw_graph_lines(&graph);
-			draw_curve(&graph, head);
-			draw_and_calc_integral(&graph, head, &sum);
 			sprintf(area_box.text, "Area: %.4f", sum.sum);
 		EndDrawing();
 	}
