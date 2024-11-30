@@ -41,12 +41,12 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 		255,
 		0,
 		0,
-		1	
+		1
 	};
 
 	for (int i = 1; i <= sum->n; i++) {
 		float y = get_value(equation, sum->a + width * i);
-		sum->sum += y * width; 
+		sum->sum += y * width;
 		struct Color tint = {
 			200,
 			0,
@@ -100,7 +100,7 @@ draw_graph_lines(struct graph *graph)
 			graph->pos.y
 		};
 		Vector2 end = {
-				graph->pos.x + i * stepsize_x, 
+				graph->pos.x + i * stepsize_x,
 				graph->pos.y + graph->pos.height,
 		};
 		DrawLineEx(start, end, 1, GRAY);
@@ -117,7 +117,7 @@ draw_graph_lines(struct graph *graph)
 		};
 		Vector2 end = {
 			graph->pos.x + graph->pos.width,
-			graph->pos.y + i * stepsize_y, 
+			graph->pos.y + i * stepsize_y,
 		};
 
 		DrawLineEx(start, end, 1, GRAY);
@@ -131,7 +131,7 @@ draw_graph_lines(struct graph *graph)
 			graph->pos.y
 		};
 		Vector2 end = {
-				graph->pos.x + i * stepsize_x, 
+				graph->pos.x + i * stepsize_x,
 				graph->pos.y + graph->pos.height,
 		};
 		if (graph->min_x + i == 0) {
