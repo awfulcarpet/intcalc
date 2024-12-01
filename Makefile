@@ -1,6 +1,14 @@
 WARNING = -Wall -Wextra -Wpedantic -Wno-unused-result -Wno-all
-CFLAGS = -std=c99 -O2 $(WARNING) -pipe -ggdb
+CFLAGS = -std=c99 -O2 $(WARNING) -pipe -ggdb -Iinclude -I/usr/local/include
 LDLIBS = -lraylib -lGL -lm -lX11 -lpthread -ldl -lrt
+EMCCFLAGS = lib/libraylib.a -s USE_GLFW=3 --shell-file minshell.html -s ASYNCIFY
+PLATFORM ?= PLATFORM_DESKTOP
+
+ifeq ($(PLATFORM),PLATFORM_WEB)
+	CC=emcc
+	LDLIBS = $(EMCCFLAGS)
+	EXT = .html
+endif
 
 LDFLAGS = #-static
 PREFIX = /usr/local/bin
@@ -33,10 +41,16 @@ $(OUTDIR)/%.o: src/%.c
 
 $(NAME): $(OBJ)
 	@echo "linking"
-	@$(CC) -o $(OUTDIR)/$@ $^ $(LDLIBS) $(LDFLAGS)
+	@$(CC) -o $(OUTDIR)/$@$(EXT) $^ $(LDLIBS) $(LDFLAGS)
 
 release: $(NAME)
 	strip $(OUTDIR)/$(NAME)
+
+web-release: clean $(NAME)
+	@rm -rf pub index.html
+	@mkdir -p pub
+	mv -f .build/$(NAME).* pub/
+	sed "s/$(NAME).js/pub\/$(NAME).js/g" pub/$(NAME).html > index.html
 
 install: $(release)
 	cp .build/$(NAME) $(PREFIX)/$(NAME)

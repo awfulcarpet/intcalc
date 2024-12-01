@@ -4,6 +4,7 @@
 #include "graph.h"
 #include "equation.h"
 
+
 void
 draw_curve(struct graph *graph, struct term *equation)
 {
