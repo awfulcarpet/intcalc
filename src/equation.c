@@ -35,8 +35,8 @@ parse_term(char *term, float *c, float *power) {
 	while (*term != '\0' && *term != 'x') term++;
 
 	char *buf[255] = {0};
-	strncpy(buf, start, term - start);
-	*c = atof(buf);
+	strncpy((char *)buf, start, term - start);
+	*c = atof((char *)buf);
 	if (*c == 0 && term - start == 0 && start[0] == 'x') {
 		*c = 1;
 	}
@@ -57,8 +57,8 @@ parse_term(char *term, float *c, float *power) {
 
 
 	memset(buf, 0, 255);
-	strncpy(buf, start, term - start);
-	*power = atof(buf);
+	strncpy((char *)buf, start, term - start);
+	*power = atof((char *)buf);
 	if (*power == 0 && start[0] != '0') {
 		return 1;
 	}
