@@ -1,12 +1,12 @@
 #include <raylib.h>
 #include <stdlib.h>
-#include <math.h>
-#include "graph.h"
-#include "equation.h"
 
+#include "equation.h"
+#include "riemann.h"
+#include "graph.h"
 
 void
-draw_curve(struct graph *graph, struct term *equation)
+draw_curve(struct graph *graph, struct Token *equation)
 {
 	if (equation == NULL) {
 		return;
@@ -15,15 +15,15 @@ draw_curve(struct graph *graph, struct term *equation)
 	double stepsize_y = graph->pos.height / (graph->max_y - graph->min_y);
 
 	for (double i = graph->min_x; i < graph->max_x; i += graph->step) {
-		double y = -get_value(equation, i); // pos is down on computer
+		double y = -calculate(equation, i); // pos is down on computer
 		DrawPixel(graph->pos.x + graph->pos.width/2.0 + i * stepsize_x,
 				graph->pos.y + graph->pos.height/2.0 + y * stepsize_y,
-				BLUE);
+				RED);
 	}
 }
 
 float
-draw_and_calc_integral(struct graph *graph, struct term *equation, struct riemann *sum)
+draw_and_calc_integral(struct graph *graph, struct Token *equation, struct riemann *sum)
 {
 	if (equation == NULL) {
 		return 0;
@@ -46,7 +46,7 @@ draw_and_calc_integral(struct graph *graph, struct term *equation, struct rieman
 	};
 
 	for (int i = 1; i <= sum->n; i++) {
-		float y = get_value(equation, sum->a + width * i);
+		float y = calculate(equation, sum->a + width * i);
 		sum->sum += y * width;
 		struct Color tint = {
 			200,
