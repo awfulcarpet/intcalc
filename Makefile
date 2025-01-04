@@ -1,5 +1,5 @@
 WARNING = -Wall -Wextra -Wpedantic -Wno-unused-result -Wno-all
-CFLAGS = -std=c99 -O2 $(WARNING) -pipe -ggdb -Iinclude -I/usr/local/include
+CFLAGS = -std=c99 -O0 $(WARNING) -pipe -ggdb -Iinclude -I/usr/local/include
 LDLIBS = -lraylib -lGL -lm -lX11 -lpthread -ldl -lrt
 EMCCFLAGS = lib/libraylib.a -s USE_GLFW=3 --shell-file minshell.html -s ASYNCIFY
 PLATFORM ?= PLATFORM_DESKTOP
@@ -31,7 +31,7 @@ checkleak:
 	valgrind --leak-check=full --show-leak-kinds=all --log-file=log $(OUTDIR)/$(NAME)
 
 run: $(NAME)
-	$(OUTDIR)/$(NAME) feeds
+	$(OUTDIR)/$(NAME)
 
 
 $(OUTDIR)/%.o: src/%.c

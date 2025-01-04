@@ -6,6 +6,95 @@
 #include <math.h>
 #include "equation.h"
 
+struct Token *
+append(struct Token *head, enum TOKEN_TYPES type, int val)
+{
+	struct Token *new = calloc(1, sizeof(struct Token));
+	new->type = type;
+	new->val = val;
+	new->next = NULL;
+
+	if (head == NULL)
+		return new;
+
+	struct Token *token = head;
+	while (token->next != NULL) token = token->next;
+
+	token->next = new;
+
+	return head;
+}
+
+int
+is_operator(char c)
+{
+	return c == '+' || c == '-' || c == '/' || c == '*' || c == '^';
+}
+
+struct Token *
+tokenize_equation(char *equation)
+{
+	struct Token *head = NULL;
+	char *c = equation;
+
+	while (*c != '\0') {
+		while (*c == ' ') c++;
+
+		if (isdigit(*c)) {
+			int val = 0;
+			do {
+				val = val * 10 + (*c - '0');
+			} while (isdigit(*++c));
+
+			head = append(head, TOKEN_NUMBER, val);
+			continue;
+		}
+
+		if (is_operator(*c)) {
+			head = append(head, TOKEN_OPERATOR, *c);
+			c++;
+			continue;
+		}
+
+		if (*c == '(' || *c == ')') {
+			head = append(head, TOKEN_PAREN, *c);
+			c++;
+			continue;
+		}
+
+		if (*c == 'x') {
+			head = append(head, TOKEN_VARIABLE, *c);
+			c++;
+			continue;
+		}
+
+		/* todo free head */
+		return NULL;
+	}
+
+	return head;
+}
+
+double
+calculate(struct Token *tokens, int x)
+{
+	return 0.0;
+}
+
+void
+print_tokens(struct Token *tokens)
+{
+	while (tokens != NULL) {
+		switch (tokens->type) {
+			case TOKEN_NUMBER:   printf("number   %d\n", tokens->val); break;
+			case TOKEN_OPERATOR: printf("operator %c\n", tokens->val); break;
+			case TOKEN_VARIABLE: printf("variable %c\n", tokens->val); break;
+			case TOKEN_PAREN:    printf("paren    %c\n", tokens->val); break;
+		}
+		tokens = tokens->next;
+	}
+}
+
 struct term *
 push_term(struct term *head, float c, float power)
 {

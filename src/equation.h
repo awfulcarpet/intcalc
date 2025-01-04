@@ -2,10 +2,10 @@
 #define EQUATION_H
 
 enum TOKEN_TYPES {
-	NUMBER,
-	OPERATOR,
-	VARIABLE,
-	PAREN,
+	TOKEN_NUMBER,
+	TOKEN_OPERATOR,
+	TOKEN_VARIABLE,
+	TOKEN_PAREN,
 };
 
 struct Token {
@@ -16,6 +16,9 @@ struct Token {
 };
 
 struct Token *tokenize_equation(char *equation);
+void print_tokens(struct Token *tokens);
+double calculate(struct Token *tokens, int x);
+
 // queue
 struct term {
 	// currently only supports polynomials
