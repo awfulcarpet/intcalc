@@ -7,7 +7,7 @@
 #include "equation.h"
 
 struct Token *
-append(struct Token *head, enum TOKEN_TYPES type, int val)
+append(struct Token *head, enum TOKEN_TYPES type, double val)
 {
 	struct Token *new = calloc(1, sizeof(struct Token));
 	new->type = type;
@@ -87,12 +87,13 @@ tokenize_equation(char *equation)
 		while (*c == ' ') c++;
 
 		if (isdigit(*c)) {
-			int val = 0;
+			char buf[10] = {0};
+			int i = 0;
 			do {
-				val = val * 10 + (*c - '0');
-			} while (isdigit(*++c));
+				buf[i++] = *c;
+			} while (*++c == '.' || isdigit(*c));
 
-			head = append(head, TOKEN_NUMBER, (double)val);
+			head = append(head, TOKEN_NUMBER, atof(buf));
 			continue;
 		}
 
