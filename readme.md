@@ -10,22 +10,16 @@ fourth is the amount of boxes to use in the reimann sum
 fifth shows the area
 
 ## Syntax
-the syntax for the calculator is a bit unconeventional
-for a function $x^2$
-you would input into the first box:
+the syntax is the same as it would be in desmos
+$x^2$
 ```
-x2
+x^2
 ```
-for a function $3x^2$
+$3x^2$
 ```
-3x2
+3x^2
 ```
-for a function $\sqrt{x}$
+$\sqrt{x}$
 ```
-x0.5
+x^0.5
 ```
-negatives also work (somewhat)
-```
--2x-2.5
-```
-
