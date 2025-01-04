@@ -54,7 +54,6 @@ op_to_tok(char c)
 double
 operate(enum OPERATORS op, double a, double b)
 {
-	printf("op %d: %f %f\n", op, a, b);
 	switch (op) {
 		case PLUS:
 			return a + b;
@@ -93,6 +92,8 @@ tokenize_equation(char *equation)
 			struct Token *last = get_last(head);
 			if (last == NULL || (last != NULL && last->type != TOKEN_NUMBER)) {
 				c++;
+				if (!isdigit(*c) && *c != 'x')
+					c--;
 				neg = 1;
 				goto digit;
 			}
@@ -127,7 +128,11 @@ digit:
 			if (last != NULL && get_last(head)->type == TOKEN_NUMBER)
 				head = append(head, TOKEN_OPERATOR, op_to_tok('*'));
 
-			head = append(head, TOKEN_VARIABLE, neg);
+			if (neg) {
+				head = append(head, TOKEN_NUMBER, 0);
+				head = append(head, TOKEN_OPERATOR, SUB);
+			}
+			head = append(head, TOKEN_VARIABLE, 'x');
 			c++;
 			continue;
 		}
@@ -170,8 +175,9 @@ calculate(struct Token *tokens, double x)
 	int sp = 0;
 	for (int i = 0; i < op; i++) {
 		if (ostack[i]->type == TOKEN_OPERATOR) {
-			if (sp < 2)
+			if (sp < 2) {
 				return 0;
+			}
 			double res = operate(ostack[i]->val, sstack[sp - 2], sstack[sp - 1]);
 
 			sp -= 2;
@@ -179,7 +185,7 @@ calculate(struct Token *tokens, double x)
 			continue;
 		}
 		if (ostack[i]->type == TOKEN_VARIABLE) {
-			sstack[sp++] = x * (ostack[i]->type ? -1 : 1);
+			sstack[sp++] = x;
 			continue;
 		}
 		sstack[sp++] = ostack[i]->val;
