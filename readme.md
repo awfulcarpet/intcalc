@@ -11,6 +11,13 @@ fifth shows the area
 
 ## Syntax
 the syntax is the same as it would be in other programs such as desmos
+### Supported operations
+- __x__ : variable
+- __+__ : add
+- __-__ : subtract
+- __*__ : multiply
+- __/__ : divide
+- __^__ : power
 ### examples
 $x^2$
 ```
