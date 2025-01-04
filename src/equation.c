@@ -54,6 +54,7 @@ op_to_tok(char c)
 double
 operate(enum OPERATORS op, double a, double b)
 {
+	printf("op %d: %f %f\n", op, a, b);
 	switch (op) {
 		case PLUS:
 			return a + b;
@@ -82,10 +83,22 @@ tokenize_equation(char *equation)
 {
 	struct Token *head = NULL;
 	char *c = equation;
+	int neg = 0;
 
 	while (*c != '\0') {
+		neg = 0;
 		while (*c == ' ') c++;
 
+		if (*c == '-') {
+			struct Token *last = get_last(head);
+			if (last == NULL || (last != NULL && last->type != TOKEN_NUMBER)) {
+				c++;
+				neg = 1;
+				goto digit;
+			}
+		}
+
+digit:
 		if (isdigit(*c)) {
 			char buf[10] = {0};
 			int i = 0;
@@ -93,7 +106,7 @@ tokenize_equation(char *equation)
 				buf[i++] = *c;
 			} while (*++c == '.' || isdigit(*c));
 
-			head = append(head, TOKEN_NUMBER, atof(buf));
+			head = append(head, TOKEN_NUMBER, atof(buf) * (neg ? -1.0 : 1.0));
 			continue;
 		}
 
