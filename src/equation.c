@@ -31,6 +31,52 @@ is_operator(char c)
 	return c == '+' || c == '-' || c == '/' || c == '*' || c == '^';
 }
 
+int
+op_to_tok(char c)
+{
+	switch (c) {
+		case '+':
+			return PLUS;
+		case '-':
+			return SUB;
+		case '*':
+			return MULT;
+		case '/':
+			return DIV;
+		case '^':
+			return POW;
+		default:
+			return -1;
+	};
+	return -1;
+}
+
+double
+operate(enum OPERATORS op, double a, double b)
+{
+	switch (op) {
+		case PLUS:
+			return a + b;
+		case SUB:
+			return a - b;
+		case MULT:
+			return a * b;
+		case DIV:
+			return a / b;
+		case POW:
+			return pow(a, b);
+	}
+}
+
+struct Token *
+get_last(struct Token *head)
+{
+	if (head == NULL)
+		return NULL;
+	while (head->next != NULL) head = head->next;
+	return head;
+}
+
 struct Token *
 tokenize_equation(char *equation)
 {
@@ -46,12 +92,12 @@ tokenize_equation(char *equation)
 				val = val * 10 + (*c - '0');
 			} while (isdigit(*++c));
 
-			head = append(head, TOKEN_NUMBER, val);
+			head = append(head, TOKEN_NUMBER, (double)val);
 			continue;
 		}
 
 		if (is_operator(*c)) {
-			head = append(head, TOKEN_OPERATOR, *c);
+			head = append(head, TOKEN_OPERATOR, op_to_tok(*c));
 			c++;
 			continue;
 		}
@@ -63,6 +109,10 @@ tokenize_equation(char *equation)
 		}
 
 		if (*c == 'x') {
+			struct Token *last = get_last(head);
+			if (last != NULL && get_last(head)->type == TOKEN_NUMBER)
+				head = append(head, TOKEN_OPERATOR, op_to_tok('*'));
+
 			head = append(head, TOKEN_VARIABLE, *c);
 			c++;
 			continue;
@@ -78,7 +128,48 @@ tokenize_equation(char *equation)
 double
 calculate(struct Token *tokens, int x)
 {
-	return 0.0;
+	struct Token * ostack[20] = {0};
+	struct Token * hstack[20] = {0};
+	int op = 0;
+	int hp = 0;
+
+	while (tokens != NULL) {
+		if (tokens->type == TOKEN_NUMBER)
+			ostack[op++] = tokens;
+
+		if (tokens->type == TOKEN_VARIABLE) {
+			tokens->type = TOKEN_NUMBER;
+			tokens->val = x;
+			ostack[op++] = tokens;
+		}
+
+		if (tokens->type == TOKEN_OPERATOR) {
+			if (hp > 0) {
+				if (hstack[hp - 1]->type == TOKEN_OPERATOR
+						&& hstack[hp-1]->val > tokens->val)
+				ostack[op++] = hstack[--hp];
+			}
+			hstack[hp++] = tokens;
+		}
+
+		tokens = tokens->next;
+	}
+
+	while (hp != 0) ostack[op++] = hstack[--hp];
+
+	double sstack[20] = {0};
+	int sp = 0;
+	for (int i = 0; i < op; i++) {
+		if (ostack[i]->type == TOKEN_OPERATOR) {
+			double res = operate(ostack[i]->val, sstack[sp - 2], sstack[sp - 1]);
+
+			sp -= 2;
+			sstack[sp++] = res;
+			continue;
+		}
+		sstack[sp++] = ostack[i]->val;
+	}
+	return sstack[0];
 }
 
 void
@@ -86,10 +177,10 @@ print_tokens(struct Token *tokens)
 {
 	while (tokens != NULL) {
 		switch (tokens->type) {
-			case TOKEN_NUMBER:   printf("number   %d\n", tokens->val); break;
-			case TOKEN_OPERATOR: printf("operator %c\n", tokens->val); break;
-			case TOKEN_VARIABLE: printf("variable %c\n", tokens->val); break;
-			case TOKEN_PAREN:    printf("paren    %c\n", tokens->val); break;
+			case TOKEN_NUMBER:   printf("number   %f\n", tokens->val); break;
+			case TOKEN_OPERATOR: printf("operator %d\n", (int)tokens->val); break;
+			case TOKEN_VARIABLE: printf("variable %c\n", (char)tokens->val); break;
+			case TOKEN_PAREN:    printf("paren    %c\n", (char)tokens->val); break;
 		}
 		tokens = tokens->next;
 	}

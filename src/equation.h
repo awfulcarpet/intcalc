@@ -8,9 +8,17 @@ enum TOKEN_TYPES {
 	TOKEN_PAREN,
 };
 
+enum OPERATORS {
+	SUB = 1,
+	PLUS = 2,
+	MULT = 3,
+	DIV = 4,
+	POW = 5,
+};
+
 struct Token {
 	enum TOKEN_TYPES type;
-	int val;
+	double val;
 
 	struct Token *next;
 };

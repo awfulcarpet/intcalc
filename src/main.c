@@ -13,10 +13,10 @@ main(void)
 {
 	const int ScreenWidth = 1000;
 	const int ScreenHeight = 400;
-	char *equation = "x + 123 + 23 - (5 * 3) * 5^3";
+	char *equation = "x^2 + 2x";
 	struct Token *toks = tokenize_equation(equation);
 	print_tokens(toks);
-	printf("%f\n", calculate(toks, 1));
+	printf("%f\n", calculate(toks, 3));
 	/*InitWindow(ScreenWidth, ScreenHeight, "intcalc");*/
 	/*SetTargetFPS(60);*/
 	/**/
