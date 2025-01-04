@@ -13,7 +13,7 @@ main(void)
 {
 	const int ScreenWidth = 1000;
 	const int ScreenHeight = 400;
-	char *equation = "9^-1";
+	char *equation = "-x^3";
 	struct Token *tokens = tokenize_equation(equation);
 	printf("\n");
 	print_tokens(tokens);

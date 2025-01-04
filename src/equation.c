@@ -127,7 +127,7 @@ digit:
 			if (last != NULL && get_last(head)->type == TOKEN_NUMBER)
 				head = append(head, TOKEN_OPERATOR, op_to_tok('*'));
 
-			head = append(head, TOKEN_VARIABLE, *c);
+			head = append(head, TOKEN_VARIABLE, neg);
 			c++;
 			continue;
 		}
@@ -179,7 +179,7 @@ calculate(struct Token *tokens, double x)
 			continue;
 		}
 		if (ostack[i]->type == TOKEN_VARIABLE) {
-			sstack[sp++] = x;
+			sstack[sp++] = x * (ostack[i]->type ? -1 : 1);
 			continue;
 		}
 		sstack[sp++] = ostack[i]->val;
